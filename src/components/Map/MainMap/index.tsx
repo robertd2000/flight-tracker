@@ -1,38 +1,14 @@
 import "ol/ol.css";
 
-import { RControl, RLayerTile, RMap, ROSM } from "rlayers";
+import { RLayerTile, RMap, ROSM } from "rlayers";
+import RLayerStadia from "rlayers/layer/RLayerStadia";
+import { SelectMap } from "@/components/SelectMap";
+import { useSelectMap } from "./hooks/useSelectMap";
 import { initialMapData } from "./constants/initial";
 import style from "@/styles/maps/mainMap.module.scss";
-import RLayerStadia from "rlayers/layer/RLayerStadia";
-import { useState } from "react";
-import { mapLayers } from "./constants/layers";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 export const MainMap = () => {
-  const [visibleLayers, setVisibleLayers] = useState(mapLayers);
-
-  const handleSelectMap = (e: string) => {
-    setVisibleLayers((layers) => {
-      return layers?.map((layer) => {
-        if (layer.value === e) {
-          return {
-            ...layer,
-            visible: true,
-          };
-        }
-
-        return { ...layer, visible: false };
-      });
-    });
-  };
+  const { visibleLayers, handleSelectMap } = useSelectMap();
 
   return (
     <RMap
@@ -42,7 +18,6 @@ export const MainMap = () => {
       maxZoom={18}
       projection={"EPSG:3857"}
     >
-      {/* <RControl.RLayers element={layersButton} className="right-0 m-2"> */}
       <ROSM properties={{ label: "OpenStreetMap" }} />
 
       {visibleLayers?.map((layer) => {
@@ -58,25 +33,7 @@ export const MainMap = () => {
             />
           );
       })}
-      {/* </RControl.RLayers> */}
-      <div className="ol-change-map">
-        <Select onValueChange={handleSelectMap}>
-          <SelectTrigger className="w-[12rem]">
-            <SelectValue placeholder="Select a map" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Maps</SelectLabel>
-              <SelectItem value={"ol"}>OpenStreetMap</SelectItem>
-              {mapLayers.map((layer) => (
-                <SelectItem key={layer.value} value={layer.value}>
-                  {layer?.properties?.label as string}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      </div>
+      <SelectMap handleSelectMap={handleSelectMap} />
     </RMap>
   );
 };
