@@ -1,6 +1,29 @@
+import { createXYZ } from "ol/tilegrid";
 import { MapLayer } from "../../components/Map/MainMap/types/layers";
 
 export const mapLayers: MapLayer[] = [
+  {
+    type: "tile",
+    value: "gmap",
+    properties: { label: "Google - Карты" },
+    url: "http://mt.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
+    projection: "EPSG:3395",
+    tileGrid: createXYZ({
+      extent: [-20037508.34, -20037508.34, 20037508.34, 20037508.34],
+    }),
+    visible: false,
+  },
+  {
+    type: "tile",
+    value: "gsat",
+    properties: { label: "Google - Спутник" },
+    url: "http://mt.google.com/vt/lyrs=y&x={x}&y={y}&z={z}",
+    projection: "EPSG:3395",
+    tileGrid: createXYZ({
+      extent: [-20037508.34, -20037508.34, 20037508.34, 20037508.34],
+    }),
+    visible: false,
+  },
   {
     type: "tile",
     value: "openTopo",

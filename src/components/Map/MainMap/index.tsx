@@ -1,6 +1,6 @@
 import "ol/ol.css";
 
-import { RLayerTile, RMap, ROSM } from "rlayers";
+import { RControl, RLayerTile, RMap, ROSM } from "rlayers";
 import RLayerStadia from "rlayers/layer/RLayerStadia";
 import { SelectMap } from "@/components/SelectMap";
 import { useSelectMap } from "./hooks/useSelectMap";
@@ -19,6 +19,17 @@ export const MainMap = () => {
       projection={"EPSG:3857"}
     >
       <ROSM properties={{ label: "OpenStreetMap" }} />
+
+      <RControl.RScaleLine />
+      <RControl.RZoom />
+      <RControl.RZoomSlider />
+      <RControl.RFullScreen
+        // A custom-looking full-screen control
+        // Take a look at index.html and example.css
+        tipLabel=" "
+        className={style.fullScreen}
+        // source="fullscreen"
+      />
 
       {visibleLayers?.map((layer) => {
         if (layer.type === "tile")

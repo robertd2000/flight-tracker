@@ -113,3 +113,11 @@
 .example-spinner > img {
   width: 100%;
 }
+
+.fullScreen {
+  border-bottom-left-radius: 2px !important;
+  border-bottom-right-radius: 2px !important;
+  position: absolute;
+  bottom: 3rem;
+  left: 8px;
+}
