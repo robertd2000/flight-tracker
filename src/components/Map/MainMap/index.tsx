@@ -6,6 +6,7 @@ import { SelectMap } from "@/components/SelectMap";
 import { useSelectMap } from "./hooks/useSelectMap";
 import { initialMapData } from "./constants/initial";
 import style from "@/styles/maps/mainMap.module.scss";
+import { FlightLayer } from "../FlightLayer";
 
 export const MainMap = () => {
   const { visibleLayers, handleSelectMap } = useSelectMap();
@@ -19,7 +20,9 @@ export const MainMap = () => {
       projection={"EPSG:3857"}
     >
       <ROSM properties={{ label: "OpenStreetMap" }} />
-
+      {/*  */}
+      <FlightLayer />
+      {/*  */}
       <RControl.RScaleLine />
       <RControl.RZoom />
       <RControl.RZoomSlider />
