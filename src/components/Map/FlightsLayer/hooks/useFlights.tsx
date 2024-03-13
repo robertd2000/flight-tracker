@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { Feature } from "ol";
 import { Point } from "ol/geom";
 import { fromLonLat } from "ol/proj";
@@ -14,11 +14,9 @@ export const useFlights = () => {
 
   const { lamax, lamin, lomax, lomin } = getCoords();
 
-  useEffect(() => {
-    refetch();
-  }, [lamax, lamin, lomax, lomin]);
 
-  const { refetch } = useQuery({
+
+  useQuery({
     queryKey: ["getStates"],
     queryFn: async () => {
       console.log("lamax, lamin, lomax, lomin", lamax, lamin, lomax, lomin);
@@ -146,7 +144,7 @@ export const useFlights = () => {
 
       return data;
     },
-    refetchInterval: 15000,
+    refetchInterval: 1500,
     refetchOnWindowFocus: false,
   });
 
