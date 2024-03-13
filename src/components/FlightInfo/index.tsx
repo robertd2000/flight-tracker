@@ -1,3 +1,4 @@
+import { FC } from "react";
 import {
   Sheet,
   SheetClose,
@@ -8,7 +9,6 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { FC } from "react";
 import { FlightInfoProps } from "./FlightInfo.interface";
 
 export const FlightInfo: FC<FlightInfoProps> = ({
