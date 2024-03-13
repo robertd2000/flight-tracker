@@ -27,10 +27,10 @@ export const useMapCoords = () => {
     const lat = searchParams.get("lat") || 0;
     const zoom = searchParams.get("zoom") || 1;
 
-    const lamin = +lat - (0.5 / +zoom + 1);
-    const lamax = +lat + (0.5 / +zoom + 1);
-    const lomin = +lon - (1 / +zoom + 2);
-    const lomax = +lon + (1 / +zoom + 2);
+    const lamin = +lat - (2 / +zoom) * 10;
+    const lamax = +lat + (2 / +zoom) * 10;
+    const lomin = +lon - (4 / +zoom) * 10;
+    const lomax = +lon + (4 / +zoom) * 10;
 
     return {
       lon,

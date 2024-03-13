@@ -146,7 +146,7 @@ export const useFlights = () => {
 
       return data;
     },
-    refetchInterval: 1500,
+    refetchInterval: 15000,
     refetchOnWindowFocus: false,
   });
 
