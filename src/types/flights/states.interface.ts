@@ -1,3 +1,24 @@
+export type FlightStates = [
+  string,
+  string,
+  string,
+  number,
+  number,
+  number,
+  number,
+  number,
+  boolean,
+  number,
+  number,
+  number,
+  number[],
+  number,
+  string,
+  boolean,
+  PositionSource,
+  CategoryNumberType
+];
+
 export interface FlightState {
   time: number;
   states: [
@@ -79,3 +100,30 @@ type IntRange<F extends number, T extends number> = Exclude<
 
 type CategoryNumberType = IntRange<0, 21>;
 type PositionSource = IntRange<0, 5>;
+
+export interface Limit {
+  lamin: number;
+  lomin: number;
+  lamax: number;
+  lomax: number;
+}
+
+export interface FlightData {
+  icao24: string;
+  callsign: string;
+  origin_country: string;
+  time_position: number;
+  last_contact: number;
+  longitude: number;
+  latitude: number;
+  baro_altitude: number;
+  on_ground: boolean;
+  velocity: number;
+  true_track: number;
+  vertical_rate: number;
+  sensors: number[];
+  geo_altitude: number;
+  squawk: string;
+  spi: boolean;
+  category: PositionSource;
+}

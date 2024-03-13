@@ -4,24 +4,26 @@ import { RControl, RLayerTile, RMap, ROSM } from "rlayers";
 import RLayerStadia from "rlayers/layer/RLayerStadia";
 import { SelectMap } from "@/components/SelectMap";
 import { useSelectMap } from "./hooks/useSelectMap";
-import { initialMapData } from "./constants/initial";
 import style from "@/styles/maps/mainMap.module.scss";
-import { FlightLayer } from "../FlightLayer";
+import { FlightsLayer } from "../FlightsLayer";
+import { useMapCoords } from "../../../hooks/map/useMapCoords";
 
 export const MainMap = () => {
+  const { view, onSetView } = useMapCoords();
   const { visibleLayers, handleSelectMap } = useSelectMap();
 
   return (
     <RMap
       className={style.mainMap}
-      initial={initialMapData}
+      initial={view}
       minZoom={3}
       maxZoom={18}
       projection={"EPSG:3857"}
+      view={[view, onSetView]}
     >
       <ROSM properties={{ label: "OpenStreetMap" }} />
       {/*  */}
-      <FlightLayer />
+      <FlightsLayer />
       {/*  */}
       <RControl.RScaleLine />
       <RControl.RZoom />
