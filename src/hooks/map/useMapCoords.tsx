@@ -1,36 +1,42 @@
-import { RView } from "node_modules/rlayers/RMap";
-import { useState } from "react";
-import { initialMapData } from "../../components/Map/MainMap/constants/initial";
+import { useCallback, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { toLonLat } from "ol/proj";
+import { RView } from "node_modules/rlayers/RMap";
+import { initialMapData } from "../../components/Map/MainMap/constants/initial";
+import { RLayerVector } from "rlayers";
 
 export const useMapCoords = () => {
   const [view, setView] = useState<RView>(initialMapData);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const onSetView = (view: RView) => {
-    setView(view);
+  const flightVectorLayer = useRef<RLayerVector>();
 
-    console.log("view", view);
+  const [lon, lat] = view.center;
 
-    const [lon, lat] = toLonLat(view.center);
+  const onSetView = useCallback(
+    (view: RView) => {
+      setView(view);
 
-    searchParams.set("lon", lon.toString());
-    searchParams.set("lat", lat.toString());
-    searchParams.set("zoom", `${view.zoom}`);
+      const [lon, lat] = toLonLat(view.center);
 
-    setSearchParams(searchParams);
-  };
+      searchParams.set("lon", lon.toString());
+      searchParams.set("lat", lat.toString());
+      searchParams.set("zoom", `${view.zoom}`);
+
+      setSearchParams(searchParams);
+    },
+    [lon, lat]
+  );
 
   const getCoords = () => {
     const lon = searchParams.get("lon") || 0;
     const lat = searchParams.get("lat") || 0;
     const zoom = searchParams.get("zoom") || 1;
 
-    const lamin = +lat - (2 / +zoom) * 10;
-    const lamax = +lat + (2 / +zoom) * 10;
-    const lomin = +lon - (4 / +zoom) * 10;
-    const lomax = +lon + (4 / +zoom) * 10;
+    const lamin = +lat - (3 / +zoom) * 10;
+    const lamax = +lat + (3 / +zoom) * 10;
+    const lomin = +lon - (6 / +zoom) * 15;
+    const lomax = +lon + (6 / +zoom) * 15;
 
     return {
       lon,
@@ -42,9 +48,9 @@ export const useMapCoords = () => {
       lomin,
     };
   };
-
   return {
     view,
+    flightVectorLayer,
     getCoords,
     onSetView,
   };

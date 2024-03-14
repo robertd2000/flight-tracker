@@ -3,10 +3,10 @@ import "ol/ol.css";
 import { RControl, RLayerTile, RMap, ROSM } from "rlayers";
 import RLayerStadia from "rlayers/layer/RLayerStadia";
 import { SelectMap } from "@/components/SelectMap";
-import { useSelectMap } from "./hooks/useSelectMap";
-import style from "@/styles/maps/mainMap.module.scss";
 import { FlightsLayer } from "../FlightsLayer";
+import { useSelectMap } from "./hooks/useSelectMap";
 import { useMapCoords } from "../../../hooks/map/useMapCoords";
+import style from "@/styles/maps/mainMap.module.scss";
 
 export const MainMap = () => {
   const { view, onSetView } = useMapCoords();
@@ -16,7 +16,7 @@ export const MainMap = () => {
     <RMap
       className={style.mainMap}
       initial={view}
-      minZoom={3}
+      minZoom={6}
       maxZoom={18}
       projection={"EPSG:3857"}
       view={[view, onSetView]}
