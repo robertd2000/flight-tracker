@@ -16,7 +16,7 @@ export const MainMap = () => {
     <RMap
       className={style.mainMap}
       initial={view}
-      minZoom={6}
+      minZoom={7}
       maxZoom={18}
       projection={"EPSG:3857"}
       view={[view, onSetView]}
