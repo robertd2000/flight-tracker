@@ -1,6 +1,6 @@
+import { useState } from "react";
 import { FlightData, FlightStates } from "@/types/flights/states.interface";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
 
 export const useSingleFlight = () => {
   const [flightData, setflightData] = useState<FlightData | null>(null);
@@ -12,7 +12,6 @@ export const useSingleFlight = () => {
 
     if (!e) setIcao(null);
   };
-  console.log(icao);
 
   useQuery({
     queryKey: ["getStateByIcao"],
