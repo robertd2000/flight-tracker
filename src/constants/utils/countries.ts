@@ -1,4 +1,6 @@
-export const CountryCodes = {
+export const CountryCodes: {
+  [key: string]: string;
+} = {
   Afghanistan: "AF",
   "Aland Islands": "AX",
   Albania: "AL",
