@@ -1,10 +1,10 @@
 import { RefObject, useState } from "react";
 import { FlightData, FlightStates } from "@/types/flights/states.interface";
 import { useQuery } from "@tanstack/react-query";
-import { flightSingleData } from "@/mocs/flights";
 import { RMap } from "rlayers";
 import { Polygon } from "ol/geom";
 import { fromLonLat } from "ol/proj";
+import { getStateByIcao } from "@/api/flights/states.api";
 
 export const useSingleFlight = (mapRef: RefObject<RMap>) => {
   const [flightData, setflightData] = useState<FlightData | null>(null);
@@ -36,8 +36,8 @@ export const useSingleFlight = (mapRef: RefObject<RMap>) => {
   useQuery({
     queryKey: ["getStateByIcao"],
     queryFn: async () => {
-      const data = flightSingleData;
-      // const data = await getStateByIcao(icao as string);
+      // const data = flightSingleData;
+      const data = await getStateByIcao(icao as string);
 
       if (data && data?.states?.length) {
         const [
