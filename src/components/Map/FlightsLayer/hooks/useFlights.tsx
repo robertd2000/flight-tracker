@@ -6,7 +6,6 @@ import { useQuery } from "@tanstack/react-query";
 import { getStates } from "@/api/flights/states.api";
 import { useMapCoords } from "@/hooks/map/useMapCoords";
 import { FlightStates } from "@/types/flights/states.interface";
-import { flightData } from "@/mocs/flights";
 
 export const useFlights = () => {
   const [flightFeatures, setflightFeatures] = useState<(Feature | null)[]>([]);
@@ -18,14 +17,14 @@ export const useFlights = () => {
   useQuery({
     queryKey: ["getStates", { lat, lon }],
     queryFn: async () => {
-      // const data = await getStates({
-      //   lamax,
-      //   lamin,
-      //   lomax,
-      //   lomin,
-      // });
+      const data = await getStates({
+        lamax,
+        lamin,
+        lomax,
+        lomin,
+      });
 
-      const data = flightData;
+      // const data = flightData;
 
       console.log("lamax, lamin, lomax, lomin,", lamax, lamin, lomax, lomin);
 

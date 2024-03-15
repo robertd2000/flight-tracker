@@ -19,29 +19,6 @@ export const useSingleFlight = () => {
     queryFn: async () => {
       const data = await getStateByIcao(icao as string);
 
-      // const data = {
-      //   states: [
-      //     [
-      //       "4b1805",
-      //       "SWR2DV  ",
-      //       "Switzerland",
-      //       1710321569,
-      //       1710321569,
-      //       5.3823,
-      //       52.1946,
-      //       4678.68,
-      //       false,
-      //       186.64,
-      //       128.73,
-      //       10.73,
-      //       null,
-      //       4739.64,
-      //       "1000",
-      //       false,
-      //       0,
-      //     ],
-      //   ],
-      // };
       if (data && data?.states?.length) {
         const [
           icao24,
