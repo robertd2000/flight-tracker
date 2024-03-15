@@ -1,15 +1,12 @@
-import { useState } from "react";
+import { RefObject, useState } from "react";
 import { FlightData, FlightStates } from "@/types/flights/states.interface";
 import { useQuery } from "@tanstack/react-query";
-import { getStateByIcao } from "@/api/flights/states.api";
 import { flightSingleData } from "@/mocs/flights";
-import { useMapCoords } from "@/hooks/map/useMapCoords";
-import { RView } from "node_modules/rlayers/RMap";
+import { RMap } from "rlayers";
+import { Polygon } from "ol/geom";
 import { fromLonLat } from "ol/proj";
 
-export const useSingleFlight = () => {
-  const { onSetView } = useMapCoords();
-
+export const useSingleFlight = (mapRef: RefObject<RMap>) => {
   const [flightData, setflightData] = useState<FlightData | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [icao, setIcao] = useState<string | null>(null);
@@ -30,15 +27,10 @@ export const useSingleFlight = () => {
     latitude: number;
   }) => {
     setIcao(icao24);
-
     const center = fromLonLat([longitude, latitude]);
-    const view: RView = {
-      center,
-      zoom: 10,
-      resolution: 148,
-    };
+    const polygon = new Polygon([[center]]);
 
-    onSetView(view);
+    mapRef.current?.ol.getView().fit(polygon, { padding: [50, 50, 50, 50] });
   };
 
   useQuery({

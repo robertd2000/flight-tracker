@@ -9,7 +9,7 @@ import { useMapCoords } from "../../../hooks/map/useMapCoords";
 import style from "@/styles/maps/mainMap.module.scss";
 
 export const MainMap = () => {
-  const { view, onSetView } = useMapCoords();
+  const { view, mapRef, onSetView } = useMapCoords();
   const { visibleLayers, handleSelectMap } = useSelectMap();
 
   return (
@@ -20,10 +20,11 @@ export const MainMap = () => {
       maxZoom={18}
       projection={"EPSG:3857"}
       view={[view, onSetView]}
+      ref={mapRef}
     >
       <ROSM properties={{ label: "OpenStreetMap" }} />
       {/*  */}
-      <FlightsLayer />
+      <FlightsLayer mapRef={mapRef} />
       {/*  */}
       <RControl.RScaleLine />
       <RControl.RZoom />

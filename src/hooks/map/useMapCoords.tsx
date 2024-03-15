@@ -1,14 +1,14 @@
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { toLonLat } from "ol/proj";
-import { RView } from "node_modules/rlayers/RMap";
+import RMap, { RView } from "node_modules/rlayers/RMap";
 import { initialMapData } from "../../components/Map/MainMap/constants/initial";
 
 export const useMapCoords = () => {
+  const mapRef = useRef<RMap>(null);
+
   const [view, setView] = useState<RView>(initialMapData);
   const [searchParams, setSearchParams] = useSearchParams();
-
-  const [lon, lat] = view.center;
 
   const onSetView = useCallback(
     (view: RView) => {
@@ -23,7 +23,7 @@ export const useMapCoords = () => {
 
       setSearchParams(searchParams);
     },
-    [lon, lat]
+    [searchParams, setSearchParams]
   );
 
   const getCoords = () => {
@@ -53,6 +53,7 @@ export const useMapCoords = () => {
 
   return {
     view,
+    mapRef,
     getCoords,
     onSetView,
   };
