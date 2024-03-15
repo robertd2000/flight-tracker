@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { RefObject, useState } from "react";
 import { FlightData, FlightStates } from "@/types/flights/states.interface";
 import { useQuery } from "@tanstack/react-query";
+import { RMap } from "rlayers";
+import { Polygon } from "ol/geom";
+import { fromLonLat } from "ol/proj";
+import { getStateByIcao } from "@/api/flights/states.api";
 
-export const useSingleFlight = () => {
+export const useSingleFlight = (mapRef: RefObject<RMap>) => {
   const [flightData, setflightData] = useState<FlightData | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [icao, setIcao] = useState<string | null>(null);
@@ -13,34 +17,28 @@ export const useSingleFlight = () => {
     if (!e) setIcao(null);
   };
 
+  const onSetIcao = ({
+    icao24,
+    latitude,
+    longitude,
+  }: {
+    icao24: string;
+    longitude: number;
+    latitude: number;
+  }) => {
+    setIcao(icao24);
+    const center = fromLonLat([longitude, latitude]);
+    const polygon = new Polygon([[center]]);
+
+    mapRef.current?.ol.getView().fit(polygon, { padding: [50, 50, 50, 50] });
+  };
+
   useQuery({
     queryKey: ["getStateByIcao"],
     queryFn: async () => {
-      // const data = await getStateByIcao(icao24);
+      // const data = flightSingleData;
+      const data = await getStateByIcao(icao as string);
 
-      const data = {
-        states: [
-          [
-            "4b1805",
-            "SWR2DV  ",
-            "Switzerland",
-            1710321569,
-            1710321569,
-            5.3823,
-            52.1946,
-            4678.68,
-            false,
-            186.64,
-            128.73,
-            10.73,
-            null,
-            4739.64,
-            "1000",
-            false,
-            0,
-          ],
-        ],
-      };
       if (data && data?.states?.length) {
         const [
           icao24,
@@ -87,15 +85,16 @@ export const useSingleFlight = () => {
 
       return data;
     },
-    refetchInterval: 150000,
+    refetchInterval: 3000,
     refetchOnWindowFocus: false,
     enabled: !!icao,
   });
 
   return {
+    icao,
     flightData,
     isSheetOpen,
     onSheetOpen,
-    setIcao,
+    onSetIcao,
   };
 };
