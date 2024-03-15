@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FlightData, FlightStates } from "@/types/flights/states.interface";
 import { useQuery } from "@tanstack/react-query";
+import { getStateByIcao } from "@/api/flights/states.api";
 
 export const useSingleFlight = () => {
   const [flightData, setflightData] = useState<FlightData | null>(null);
@@ -16,31 +17,31 @@ export const useSingleFlight = () => {
   useQuery({
     queryKey: ["getStateByIcao"],
     queryFn: async () => {
-      // const data = await getStateByIcao(icao24);
+      const data = await getStateByIcao(icao as string);
 
-      const data = {
-        states: [
-          [
-            "4b1805",
-            "SWR2DV  ",
-            "Switzerland",
-            1710321569,
-            1710321569,
-            5.3823,
-            52.1946,
-            4678.68,
-            false,
-            186.64,
-            128.73,
-            10.73,
-            null,
-            4739.64,
-            "1000",
-            false,
-            0,
-          ],
-        ],
-      };
+      // const data = {
+      //   states: [
+      //     [
+      //       "4b1805",
+      //       "SWR2DV  ",
+      //       "Switzerland",
+      //       1710321569,
+      //       1710321569,
+      //       5.3823,
+      //       52.1946,
+      //       4678.68,
+      //       false,
+      //       186.64,
+      //       128.73,
+      //       10.73,
+      //       null,
+      //       4739.64,
+      //       "1000",
+      //       false,
+      //       0,
+      //     ],
+      //   ],
+      // };
       if (data && data?.states?.length) {
         const [
           icao24,
@@ -87,7 +88,7 @@ export const useSingleFlight = () => {
 
       return data;
     },
-    refetchInterval: 150000,
+    refetchInterval: 3000,
     refetchOnWindowFocus: false,
     enabled: !!icao,
   });
