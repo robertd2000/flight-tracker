@@ -11,7 +11,8 @@ import { memo, useCallback } from "react";
 export const FlightsLayer = memo(() => {
   const { flightFeatures } = useFlights();
 
-  const { flightData, isSheetOpen, onSheetOpen, setIcao } = useSingleFlight();
+  const { flightData, isSheetOpen, icao, onSheetOpen, onSetIcao } =
+    useSingleFlight();
 
   return (
     <>
@@ -28,14 +29,19 @@ export const FlightsLayer = memo(() => {
 
           const featureData = feature.getProperties().features[0].values_.data;
 
+          const imageSrc =
+            featureData.icao24 == icao
+              ? new URL(`../../../assets/green.png`, import.meta.url).href
+              : new URL(
+                  `../../../assets/${
+                    AircraftCategories[featureData?.category]
+                  }.png`,
+                  import.meta.url
+                ).href;
+
           return new Style({
             image: new Icon({
-              src: new URL(
-                `../../../assets/${
-                  AircraftCategories[featureData?.category]
-                }.png`,
-                import.meta.url
-              ).href,
+              src: imageSrc,
               anchor: [0.5, 0.5],
               anchorXUnits: "fraction",
               anchorYUnits: "fraction",
@@ -49,8 +55,14 @@ export const FlightsLayer = memo(() => {
         }}
         zIndex={100}
         onClick={useCallback((e: RFeatureUIEvent) => {
+          const { icao24, latitude, longitude } =
+            e.target.getProperties().features[0].values_.data;
           onSheetOpen(true);
-          setIcao(e.target.getProperties().features[0].values_.data?.icao24);
+          onSetIcao({
+            icao24,
+            latitude,
+            longitude,
+          });
         }, [])}
       >
         {flightFeatures

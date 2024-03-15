@@ -2,8 +2,14 @@ import { useState } from "react";
 import { FlightData, FlightStates } from "@/types/flights/states.interface";
 import { useQuery } from "@tanstack/react-query";
 import { getStateByIcao } from "@/api/flights/states.api";
+import { flightSingleData } from "@/mocs/flights";
+import { useMapCoords } from "@/hooks/map/useMapCoords";
+import { RView } from "node_modules/rlayers/RMap";
+import { fromLonLat } from "ol/proj";
 
 export const useSingleFlight = () => {
+  const { onSetView } = useMapCoords();
+
   const [flightData, setflightData] = useState<FlightData | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [icao, setIcao] = useState<string | null>(null);
@@ -14,10 +20,32 @@ export const useSingleFlight = () => {
     if (!e) setIcao(null);
   };
 
+  const onSetIcao = ({
+    icao24,
+    latitude,
+    longitude,
+  }: {
+    icao24: string;
+    longitude: number;
+    latitude: number;
+  }) => {
+    setIcao(icao24);
+
+    const center = fromLonLat([longitude, latitude]);
+    const view: RView = {
+      center,
+      zoom: 10,
+      resolution: 148,
+    };
+
+    onSetView(view);
+  };
+
   useQuery({
     queryKey: ["getStateByIcao"],
     queryFn: async () => {
-      const data = await getStateByIcao(icao as string);
+      const data = flightSingleData;
+      // const data = await getStateByIcao(icao as string);
 
       if (data && data?.states?.length) {
         const [
@@ -71,9 +99,10 @@ export const useSingleFlight = () => {
   });
 
   return {
+    icao,
     flightData,
     isSheetOpen,
     onSheetOpen,
-    setIcao,
+    onSetIcao,
   };
 };
