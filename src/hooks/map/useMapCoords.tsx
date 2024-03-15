@@ -32,8 +32,8 @@ export const useMapCoords = () => {
     const zoom = searchParams.get("zoom") || 1;
     const resolution = searchParams.get("resolution") || 1;
 
-    const latOff = +resolution! / 400;
-    const lonOff = +resolution! / 250;
+    const latOff = +resolution! / 500;
+    const lonOff = +resolution! / 150;
 
     const lamin = +lat - latOff;
     const lamax = +lat + latOff;
@@ -50,6 +50,7 @@ export const useMapCoords = () => {
       lomin,
     };
   };
+
   return {
     view,
     getCoords,
