@@ -7,12 +7,21 @@ import { useSingleFlight } from "./hooks/useSingleFlight";
 import { useFlights } from "./hooks/useFlights";
 import { AircraftCategories } from "@/constants/flights/categories";
 import { RefObject, memo, useCallback } from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 export const FlightsLayer = memo(({ mapRef }: { mapRef: RefObject<RMap> }) => {
   const { flightFeatures } = useFlights();
 
-  const { flightData, isSheetOpen, icao, onSheetOpen, onSetIcao } =
-    useSingleFlight(mapRef);
+  const {
+    flightData,
+    isSheetOpen,
+    icao,
+    icaoInput,
+    setIcaoInput,
+    onSheetOpen,
+    onSetIcao,
+  } = useSingleFlight(mapRef);
 
   return (
     <>
@@ -21,6 +30,17 @@ export const FlightsLayer = memo(({ mapRef }: { mapRef: RefObject<RMap> }) => {
         isSheetOpen={isSheetOpen}
         onSheetOpen={onSheetOpen}
       />
+
+      <div className="flex w-full max-w-sm items-center space-x-2 absolute top-2 right-[15rem] z-50">
+        <Input
+          value={icaoInput}
+          onChange={(e) => setIcaoInput(e.target.value)}
+          placeholder="Искать по icao24"
+        />
+        <Button type="submit" onClick={() => onSetIcao({ icao24: icaoInput })}>
+          Поиск
+        </Button>
+      </div>
 
       <RLayerCluster
         distance={30}
@@ -61,13 +81,11 @@ export const FlightsLayer = memo(({ mapRef }: { mapRef: RefObject<RMap> }) => {
         zIndex={100}
         onClick={useCallback(
           (e: RFeatureUIEvent) => {
-            const { icao24, latitude, longitude } =
+            const { icao24 } =
               e.target.getProperties().features[0].values_.data;
             onSheetOpen(true);
             onSetIcao({
               icao24,
-              latitude,
-              longitude,
             });
           },
           [onSetIcao, onSheetOpen]
