@@ -6,6 +6,7 @@ import { Polygon } from "ol/geom";
 import { fromLonLat } from "ol/proj";
 import { getStateByIcao } from "@/api/flights/states.api";
 import { flightSingleData } from "@/mocs/flights";
+import { formatDateFromNow } from "@/utils/date";
 
 export const useSingleFlight = (mapRef: RefObject<RMap>) => {
   const [flightData, setflightData] = useState<FlightData | null>(null);
@@ -65,12 +66,14 @@ export const useSingleFlight = (mapRef: RefObject<RMap>) => {
           category,
         ] = data?.states?.[0] as FlightStates;
 
+        const lastContact = formatDateFromNow(last_contact);
+
         setflightData({
           icao24,
           callsign,
           origin_country,
           time_position,
-          last_contact,
+          last_contact: lastContact,
           longitude,
           latitude,
           baro_altitude,

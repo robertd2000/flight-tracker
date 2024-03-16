@@ -113,7 +113,7 @@ export interface FlightData {
   callsign: string;
   origin_country: string;
   time_position: number;
-  last_contact: number;
+  last_contact: number | string;
   longitude: number;
   latitude: number;
   baro_altitude: number;
