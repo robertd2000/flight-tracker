@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getStates } from "@/api/flights/states.api";
 import { useMapCoords } from "@/hooks/map/useMapCoords";
 import { FlightStates } from "@/types/flights/states.interface";
+import { flightData } from "@/mocs/flights";
 
 export const useFlights = () => {
   const [flightFeatures, setflightFeatures] = useState<(Feature | null)[]>([]);

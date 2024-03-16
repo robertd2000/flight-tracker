@@ -5,28 +5,32 @@ import { RMap } from "rlayers";
 import { Polygon } from "ol/geom";
 import { fromLonLat } from "ol/proj";
 import { getStateByIcao } from "@/api/flights/states.api";
+import { flightSingleData } from "@/mocs/flights";
 
 export const useSingleFlight = (mapRef: RefObject<RMap>) => {
   const [flightData, setflightData] = useState<FlightData | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [icaoInput, setIcaoInput] = useState<string>("");
   const [icao, setIcao] = useState<string | null>(null);
+  const [isIcaoSetted, setIsIcaoSetted] = useState<boolean>(false);
 
   const onSheetOpen = (e: boolean) => {
     setIsSheetOpen(e);
-
     if (!e) setIcao(null);
   };
 
-  const onSetIcao = ({
-    icao24,
+  const onSetIcao = ({ icao24 }: { icao24: string }) => {
+    setIcao(icao24);
+    setIsIcaoSetted(true);
+  };
+
+  const zoomToCoords = ({
     latitude,
     longitude,
   }: {
-    icao24: string;
     longitude: number;
     latitude: number;
   }) => {
-    setIcao(icao24);
     const center = fromLonLat([longitude, latitude]);
     const polygon = new Polygon([[center]]);
 
@@ -81,6 +85,14 @@ export const useSingleFlight = (mapRef: RefObject<RMap>) => {
           // position_source,
           category,
         });
+
+        if (isIcaoSetted)
+          zoomToCoords({
+            longitude,
+            latitude,
+          });
+
+        setIsIcaoSetted(false);
       }
 
       return data;
@@ -94,6 +106,8 @@ export const useSingleFlight = (mapRef: RefObject<RMap>) => {
     icao,
     flightData,
     isSheetOpen,
+    icaoInput,
+    setIcaoInput,
     onSheetOpen,
     onSetIcao,
   };
