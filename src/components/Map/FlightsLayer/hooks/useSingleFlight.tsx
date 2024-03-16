@@ -40,8 +40,8 @@ export const useSingleFlight = (mapRef: RefObject<RMap>) => {
   useQuery({
     queryKey: ["getStateByIcao"],
     queryFn: async () => {
-      const data = flightSingleData;
-      // const data = await getStateByIcao(icao as string);
+      // const data = flightSingleData;
+      const data = await getStateByIcao(icao as string);
 
       if (data && data?.states?.length) {
         const [
