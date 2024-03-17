@@ -25,7 +25,7 @@ export const FlightInfo: FC<FlightInfoProps> = ({
       <SheetContent side={"left"}>
         {isLoading ? (
           <FlightInfoSkeleton />
-        ) : (
+        ) : flightData ? (
           <>
             <SheetHeader>
               <SheetTitle>
@@ -62,6 +62,8 @@ export const FlightInfo: FC<FlightInfoProps> = ({
               <FlightInfoTable flightData={flightData} />
             </div>
           </>
+        ) : (
+          "Нет данных"
         )}
       </SheetContent>
     </Sheet>
