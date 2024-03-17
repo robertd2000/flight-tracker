@@ -10,10 +10,12 @@ import { FlightInfoTable } from "./components/Table";
 import { CountryCodes } from "@/constants/utils/countries";
 import { AircraftCategories } from "@/constants/flights/categories";
 import { FlightInfoProps } from "./FlightInfo.interface";
+import { FlightInfoSkeleton } from "./components/Skeleton";
 
 export const FlightInfo: FC<FlightInfoProps> = ({
   flightData,
   isSheetOpen,
+  isLoading,
   onSheetOpen,
 }) => {
   const code = CountryCodes?.[flightData?.origin_country as string];
@@ -21,37 +23,46 @@ export const FlightInfo: FC<FlightInfoProps> = ({
   return (
     <Sheet open={isSheetOpen} onOpenChange={onSheetOpen} modal={false}>
       <SheetContent side={"left"}>
-        <SheetHeader>
-          <SheetTitle>
-            <div className="flex gap-2">
-              <img
-                width={20}
-                src={
-                  new URL(
-                    `../../assets/${
-                      AircraftCategories[flightData?.category as number]
-                    }.png`,
-                    import.meta.url
-                  ).href
-                }
-                alt=""
-              />
-              {flightData?.icao24}
-            </div>
-          </SheetTitle>
-          <SheetDescription>
-            <div className="flex flex-wrap items-center justify-start align-middle gap-2">
-              <img src={`https://flagsapi.com/${code}/flat/64.png`} alt="" />
+        {isLoading ? (
+          <FlightInfoSkeleton />
+        ) : (
+          <>
+            <SheetHeader>
+              <SheetTitle>
+                <div className="flex gap-2">
+                  <img
+                    width={20}
+                    src={
+                      new URL(
+                        `../../assets/${
+                          AircraftCategories[flightData?.category as number]
+                        }.png`,
+                        import.meta.url
+                      ).href
+                    }
+                    alt=""
+                  />
+                  {flightData?.icao24}
+                </div>
+              </SheetTitle>
+              <SheetDescription>
+                <div className="flex flex-wrap items-center justify-start align-middle gap-2">
+                  <img
+                    src={`https://flagsapi.com/${code}/flat/64.png`}
+                    alt=""
+                  />
 
-              <div className="align-middle ">
-                Country of origin - <b>{flightData?.origin_country}</b>
-              </div>
+                  <div className="align-middle ">
+                    Country of origin - <b>{flightData?.origin_country}</b>
+                  </div>
+                </div>
+              </SheetDescription>
+            </SheetHeader>
+            <div className="grid gap-4 py-4">
+              <FlightInfoTable flightData={flightData} />
             </div>
-          </SheetDescription>
-        </SheetHeader>
-        <div className="grid gap-4 py-4">
-          <FlightInfoTable flightData={flightData} />
-        </div>
+          </>
+        )}
       </SheetContent>
     </Sheet>
   );

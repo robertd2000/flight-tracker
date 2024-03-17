@@ -18,6 +18,7 @@ export const FlightsLayer = memo(({ mapRef }: { mapRef: RefObject<RMap> }) => {
     isSheetOpen,
     icao,
     icaoInput,
+    isLoading,
     setIcaoInput,
     onSheetOpen,
     onSetIcao,
@@ -29,6 +30,7 @@ export const FlightsLayer = memo(({ mapRef }: { mapRef: RefObject<RMap> }) => {
         flightData={flightData}
         isSheetOpen={isSheetOpen}
         onSheetOpen={onSheetOpen}
+        isLoading={isLoading}
       />
 
       <div className="flex w-full max-w-sm items-center space-x-2 absolute top-2 right-[15rem] z-50">

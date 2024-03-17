@@ -1,11 +1,12 @@
 import { RefObject, useState } from "react";
-import { FlightData, FlightStates } from "@/types/flights/states.interface";
 import { useQuery } from "@tanstack/react-query";
 import { RMap } from "rlayers";
 import { Polygon } from "ol/geom";
 import { fromLonLat } from "ol/proj";
 import { getStateByIcao } from "@/api/flights/states.api";
-import { flightSingleData } from "@/mocs/flights";
+import { formatDateFromNow } from "@/utils/date";
+import { FlightData, FlightStates } from "@/types/flights/states.interface";
+import { toast } from "sonner";
 
 export const useSingleFlight = (mapRef: RefObject<RMap>) => {
   const [flightData, setflightData] = useState<FlightData | null>(null);
@@ -37,7 +38,7 @@ export const useSingleFlight = (mapRef: RefObject<RMap>) => {
     mapRef.current?.ol.getView().fit(polygon, { padding: [50, 50, 50, 50] });
   };
 
-  useQuery({
+  const { error, isLoading } = useQuery({
     queryKey: ["getStateByIcao"],
     queryFn: async () => {
       // const data = flightSingleData;
@@ -65,12 +66,14 @@ export const useSingleFlight = (mapRef: RefObject<RMap>) => {
           category,
         ] = data?.states?.[0] as FlightStates;
 
+        const lastContact = formatDateFromNow(last_contact);
+
         setflightData({
           icao24,
           callsign,
           origin_country,
           time_position,
-          last_contact,
+          last_contact: lastContact,
           longitude,
           latitude,
           baro_altitude,
@@ -102,11 +105,18 @@ export const useSingleFlight = (mapRef: RefObject<RMap>) => {
     enabled: !!icao,
   });
 
+  if (error) {
+    toast("Произошла ошибка на сервере", {
+      description: error.message,
+    });
+  }
+
   return {
     icao,
     flightData,
     isSheetOpen,
     icaoInput,
+    isLoading,
     setIcaoInput,
     onSheetOpen,
     onSetIcao,

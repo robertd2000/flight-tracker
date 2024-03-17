@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getStates } from "@/api/flights/states.api";
 import { useMapCoords } from "@/hooks/map/useMapCoords";
 import { FlightStates } from "@/types/flights/states.interface";
-import { flightData } from "@/mocs/flights";
+import { toast } from "sonner";
 
 export const useFlights = () => {
   const [flightFeatures, setflightFeatures] = useState<(Feature | null)[]>([]);
@@ -15,7 +15,7 @@ export const useFlights = () => {
 
   const { lamax, lamin, lomax, lomin, lat, lon } = getCoords();
 
-  useQuery({
+  const { error } = useQuery({
     queryKey: ["getStates", { lat, lon }],
     queryFn: async () => {
       const data = await getStates({
@@ -24,6 +24,8 @@ export const useFlights = () => {
         lomax,
         lomin,
       });
+
+      console.log("data", data);
 
       // const data = flightData;
 
@@ -94,6 +96,12 @@ export const useFlights = () => {
     refetchInterval: 1500,
     refetchOnWindowFocus: false,
   });
+
+  if (error) {
+    toast("Произошла ошибка на сервере", {
+      description: error.message,
+    });
+  }
 
   return {
     flightFeatures,
