@@ -1,5 +1,6 @@
 import "ol/ol.css";
 
+import { memo } from "react";
 import { RControl, RLayerTile, RMap, ROSM } from "rlayers";
 import RLayerStadia from "rlayers/layer/RLayerStadia";
 import { SelectMap } from "@/components/SelectMap";
@@ -8,7 +9,7 @@ import { useSelectMap } from "./hooks/useSelectMap";
 import { useMapCoords } from "../../../hooks/map/useMapCoords";
 import style from "@/styles/maps/mainMap.module.scss";
 
-export const MainMap = () => {
+export const MainMap = memo(() => {
   const { view, mapRef, onSetView } = useMapCoords();
   const { visibleLayers, handleSelectMap } = useSelectMap();
 
@@ -53,4 +54,4 @@ export const MainMap = () => {
       <SelectMap handleSelectMap={handleSelectMap} />
     </RMap>
   );
-};
+});
