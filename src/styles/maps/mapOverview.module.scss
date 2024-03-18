@@ -1,5 +1,5 @@
 .overviewMap {
-  bottom: 0.5rem !important;
+  bottom: 2.5rem !important;
   left: auto !important;
   right: 0.5rem !important;
   top: auto !important;
@@ -28,30 +28,4 @@
     right: 0.5rem !important;
     top: auto !important;
   }
-}
-
-.overviewMap .ol-overviewmap-map {
-  border: none !important;
-  border-radius: 15px;
-  width: 300px !important;
-  margin: 0.1rem;
-}
-
-.overviewMap .ol-overviewmap-box {
-  border: 2px solid blue;
-}
-
-.overviewMap,
-.overviewMap.ol-uncollapsible {
-  bottom: 0.5rem !important;
-  left: auto !important;
-  right: 0.5rem !important;
-  top: auto !important;
-}
-
-.overviewMap:not(.ol-collapsed) button {
-  bottom: 0.5rem !important;
-  left: auto !important;
-  right: 0.5rem !important;
-  top: auto !important;
 }

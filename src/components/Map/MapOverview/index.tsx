@@ -6,7 +6,7 @@ export const MapOverview = () => {
     <RControl.ROverviewMap
       //   className="ol-overviewmap example-overview"
       collapsed={false}
-      className={style.overviewMap + " ol-overviewmap"}
+      className={"ol-overviewmap " + style.overviewMap}
     >
       <ROSM />
     </RControl.ROverviewMap>
