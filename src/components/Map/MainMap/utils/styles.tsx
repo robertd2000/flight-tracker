@@ -1,6 +1,5 @@
 import { Fill, Icon, Stroke, Style, Text } from "ol/style";
 import CircleStyle from "ol/style/Circle";
-import s from "../../../../assets/airplane.jpeg";
 /**
  * Стиль кластера
  * @param feature - метка карты
