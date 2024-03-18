@@ -8,6 +8,7 @@ import { FlightsLayer } from "../FlightsLayer";
 import { useSelectMap } from "./hooks/useSelectMap";
 import { useMapCoords } from "../../../hooks/map/useMapCoords";
 import style from "@/styles/maps/mainMap.module.scss";
+import { MapOverview } from "../MapOverview";
 
 export const MainMap = memo(() => {
   const { view, mapRef, onSetView } = useMapCoords();
@@ -26,6 +27,8 @@ export const MainMap = memo(() => {
       <ROSM properties={{ label: "OpenStreetMap" }} />
       {/*  */}
       <FlightsLayer mapRef={mapRef} />
+      {/*  */}
+      <MapOverview />
       {/*  */}
       <RControl.RScaleLine />
       <RControl.RZoom />
