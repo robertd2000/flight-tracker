@@ -1,13 +1,13 @@
-import { RefObject, useState } from "react";
+import { RefObject, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { RMap } from "rlayers";
 import { Polygon } from "ol/geom";
 import { fromLonLat } from "ol/proj";
 import { toast } from "sonner";
-import { getStateByIcao } from "@/api/flights/states.api";
+// import { getStateByIcao } from "@/api/flights/states.api";
 import { formatDateFromNow } from "@/utils/date";
 import { FlightData, FlightStates } from "@/types/flights/states.interface";
-// import { flightSingleData } from "@/mocs/flights";
+import { flightSingleData } from "@/mocs/flights";
 
 export const useSingleFlight = (mapRef: RefObject<RMap>) => {
   const [flightData, setflightData] = useState<FlightData | null>(null);
@@ -42,8 +42,8 @@ export const useSingleFlight = (mapRef: RefObject<RMap>) => {
   const { error, isLoading } = useQuery({
     queryKey: ["getStateByIcao"],
     queryFn: async () => {
-      // const data = flightSingleData;
-      const data = await getStateByIcao(icao as string);
+      const data = flightSingleData;
+      // const data = await getStateByIcao(icao as string);
 
       if (data && data?.states?.length) {
         const [
@@ -90,11 +90,12 @@ export const useSingleFlight = (mapRef: RefObject<RMap>) => {
           category,
         });
 
-        if (isIcaoSetted)
+        if (isIcaoSetted) {
           zoomToCoords({
             longitude,
             latitude,
           });
+        }
 
         setIsIcaoSetted(false);
       }
@@ -105,6 +106,10 @@ export const useSingleFlight = (mapRef: RefObject<RMap>) => {
     refetchOnWindowFocus: false,
     enabled: !!icao,
   });
+
+  useEffect(() => {
+    if (icao) setIsIcaoSetted(false);
+  }, [icao]);
 
   if (error) {
     toast("Произошла ошибка на сервере", {
