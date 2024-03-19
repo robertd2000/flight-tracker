@@ -1,7 +1,7 @@
 # Flight Tracker - приложения для отслеживания полетов
 
-# Стек:
-# React + TypeScript + Vite
+## Стек:
+## React + TypeScript + Vite
 
 Для карты используется библиотека [OpenLayers](https://github.com/openlayers/openlayers)
 
