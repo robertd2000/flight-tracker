@@ -1,9 +1,9 @@
 import { useCallback, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { RMap } from "rlayers";
 import { toLonLat } from "ol/proj";
 import { RView } from "node_modules/rlayers/RMap";
 import { initialMapData } from "../../components/Map/MainMap/constants/initial";
-import { RMap } from "rlayers";
 
 export const useMapCoords = () => {
   const mapRef = useRef<RMap>(null);

@@ -1,14 +1,14 @@
+import { RefObject, memo, useCallback } from "react";
 import { Feature } from "ol";
 import { FeatureLike } from "ol/Feature";
 import { Style, Icon } from "ol/style";
 import { RFeature, RFeatureUIEvent, RLayerCluster, RMap } from "rlayers";
 import { FlightInfo } from "@/components/FlightInfo";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { useSingleFlight } from "./hooks/useSingleFlight";
 import { useFlights } from "./hooks/useFlights";
 import { AircraftCategories } from "@/constants/flights/categories";
-import { RefObject, memo, useCallback } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 
 export const FlightsLayer = memo(({ mapRef }: { mapRef: RefObject<RMap> }) => {
   const { flightFeatures } = useFlights();
