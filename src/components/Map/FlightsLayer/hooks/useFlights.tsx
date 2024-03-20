@@ -19,14 +19,14 @@ export const useFlights = () => {
   const { error } = useQuery({
     queryKey: ["getStates", { lat, lon }],
     queryFn: async () => {
-      // const data = await getStates({
-      //   lamax,
-      //   lamin,
-      //   lomax,
-      //   lomin,
-      // });
+      const data = await getStates({
+        lamax,
+        lamin,
+        lomax,
+        lomin,
+      });
 
-      const data = flightData;
+      // const data = flightData;
 
       if (data && data?.states?.length) {
         setflightFeatures(
