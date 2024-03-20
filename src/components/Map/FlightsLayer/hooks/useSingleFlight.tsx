@@ -1,4 +1,4 @@
-import { RefObject, useState } from "react";
+import { RefObject, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { RMap } from "rlayers";
 import { Polygon } from "ol/geom";
@@ -90,11 +90,12 @@ export const useSingleFlight = (mapRef: RefObject<RMap>) => {
           category,
         });
 
-        if (isIcaoSetted)
+        if (isIcaoSetted) {
           zoomToCoords({
             longitude,
             latitude,
           });
+        }
 
         setIsIcaoSetted(false);
       }
@@ -105,6 +106,10 @@ export const useSingleFlight = (mapRef: RefObject<RMap>) => {
     refetchOnWindowFocus: false,
     enabled: !!icao,
   });
+
+  useEffect(() => {
+    if (icao) setIsIcaoSetted(false);
+  }, [icao]);
 
   if (error) {
     toast("Произошла ошибка на сервере", {
