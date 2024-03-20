@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { getStateByIcao } from "@/api/flights/states.api";
 import { FlightData, FlightStates } from "@/types/flights/states.interface";
 import { transformData } from "../utils/data";
-// import { flightSingleData } from "@/mocs/flights";
+import { flightSingleData } from "@/mocs/flights";
 
 export const useSingleFlight = (mapRef: RefObject<RMap>) => {
   const [flightData, setflightData] = useState<FlightData | null>(null);
@@ -42,8 +42,8 @@ export const useSingleFlight = (mapRef: RefObject<RMap>) => {
   const { error, isLoading } = useQuery({
     queryKey: ["getStateByIcao"],
     queryFn: async () => {
-      // const data = flightSingleData;
-      const data = await getStateByIcao(icao as string);
+      const data = flightSingleData;
+      // const data = await getStateByIcao(icao as string);
 
       if (data && data?.states?.length) {
         const [

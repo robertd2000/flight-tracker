@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { getStates } from "@/api/flights/states.api";
 import { useMapCoords } from "@/hooks/map/useMapCoords";
 import { FlightStates } from "@/types/flights/states.interface";
-// import { flightData } from "@/mocs/flights";
+import { flightData } from "@/mocs/flights";
 
 export const useFlights = () => {
   const [flightFeatures, setflightFeatures] = useState<(Feature | null)[]>([]);
@@ -19,14 +19,14 @@ export const useFlights = () => {
   const { error } = useQuery({
     queryKey: ["getStates", { lat, lon }],
     queryFn: async () => {
-      const data = await getStates({
-        lamax,
-        lamin,
-        lomax,
-        lomin,
-      });
+      // const data = await getStates({
+      //   lamax,
+      //   lamin,
+      //   lomax,
+      //   lomin,
+      // });
 
-      // const data = flightData;
+      const data = flightData;
 
       if (data && data?.states?.length) {
         setflightFeatures(
