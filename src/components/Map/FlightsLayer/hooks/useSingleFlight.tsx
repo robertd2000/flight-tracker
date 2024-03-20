@@ -5,9 +5,9 @@ import { Polygon } from "ol/geom";
 import { fromLonLat } from "ol/proj";
 import { toast } from "sonner";
 import { getStateByIcao } from "@/api/flights/states.api";
-import { formatDateFromNow } from "@/utils/date";
 import { FlightData, FlightStates } from "@/types/flights/states.interface";
-// import { flightSingleData } from "@/mocs/flights";
+import { transformData } from "../utils/data";
+import { flightSingleData } from "@/mocs/flights";
 
 export const useSingleFlight = (mapRef: RefObject<RMap>) => {
   const [flightData, setflightData] = useState<FlightData | null>(null);
@@ -67,14 +67,12 @@ export const useSingleFlight = (mapRef: RefObject<RMap>) => {
           category,
         ] = data?.states?.[0] as FlightStates;
 
-        const lastContact = formatDateFromNow(last_contact);
-
-        setflightData({
+        const transformedFlightData = transformData({
           icao24,
           callsign,
           origin_country,
           time_position,
-          last_contact: lastContact,
+          last_contact,
           longitude,
           latitude,
           baro_altitude,
@@ -89,6 +87,8 @@ export const useSingleFlight = (mapRef: RefObject<RMap>) => {
           // position_source,
           category,
         });
+
+        setflightData(transformedFlightData);
 
         if (isIcaoSetted) {
           zoomToCoords({

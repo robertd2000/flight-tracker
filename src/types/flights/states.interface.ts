@@ -116,6 +116,26 @@ export interface FlightData {
   last_contact: number | string;
   longitude: number;
   latitude: number;
+  baro_altitude: number | string;
+  on_ground: boolean;
+  velocity: number | string;
+  true_track: number | string;
+  vertical_rate: number | string;
+  sensors: number[];
+  geo_altitude: number | string;
+  squawk: string;
+  spi: boolean;
+  category: PositionSource | string;
+}
+
+export interface FlightDataSource {
+  icao24: string;
+  callsign: string;
+  origin_country: string;
+  time_position: number;
+  last_contact: number;
+  longitude: number;
+  latitude: number;
   baro_altitude: number;
   on_ground: boolean;
   velocity: number;

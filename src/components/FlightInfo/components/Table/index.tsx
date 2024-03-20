@@ -34,7 +34,7 @@ export const FlightInfoTable: FC<FlightInfoTableProps> = memo(
                   colSpan={flightInfoColumns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  Нет данных
                 </TableCell>
               </TableRow>
             )}

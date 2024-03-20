@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { getStates } from "@/api/flights/states.api";
 import { useMapCoords } from "@/hooks/map/useMapCoords";
 import { FlightStates } from "@/types/flights/states.interface";
-// import { flightData } from "@/mocs/flights";
+import { flightData } from "@/mocs/flights";
 
 export const useFlights = () => {
   const [flightFeatures, setflightFeatures] = useState<(Feature | null)[]>([]);

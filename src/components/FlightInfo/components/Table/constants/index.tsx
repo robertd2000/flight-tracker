@@ -5,7 +5,9 @@ export const flightInfoColumns: ColumnDef<FlightTable>[] = [
   {
     accessorKey: "title",
 
-    cell: ({ row }) => <div className="lowercase">{row.getValue("title")}</div>,
+    cell: ({ row }) => (
+      <div className="text-gray-700">{row.getValue("title")}</div>
+    ),
   },
   {
     accessorKey: "value",
