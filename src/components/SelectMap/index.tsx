@@ -16,11 +16,11 @@ export const SelectMap: FC<SelectMapProps> = ({ handleSelectMap }) => {
     <div className="ol-change-map">
       <Select onValueChange={handleSelectMap}>
         <SelectTrigger className="w-[12rem]">
-          <SelectValue placeholder="Select a map" />
+          <SelectValue placeholder="Выберите карту" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectLabel>Maps</SelectLabel>
+            <SelectLabel>Карты</SelectLabel>
             <SelectItem value={"ol"}>OpenStreetMap</SelectItem>
             {mapLayers.map((layer) => (
               <SelectItem key={layer.value} value={layer.value}>
