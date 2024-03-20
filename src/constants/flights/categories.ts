@@ -21,3 +21,10 @@ export enum AircraftCategories {
   "cluster_obstacle", // 19 = Cluster Obstacle
   "line_obstacle", // 20 = Line Obstacle
 }
+
+export enum PositionCategories {
+  "ADS-B",
+  "ASTERIX",
+  "MLAT",
+  "FLARM",
+}

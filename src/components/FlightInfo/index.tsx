@@ -11,6 +11,7 @@ import { CountryCodes } from "@/constants/utils/countries";
 import { AircraftCategories } from "@/constants/flights/categories";
 import { FlightInfoProps } from "./FlightInfo.interface";
 import { FlightInfoSkeleton } from "./components/Skeleton";
+import { ScrollArea } from "../ui/scroll-area";
 
 export const FlightInfo: FC<FlightInfoProps> = ({
   flightData,
@@ -58,9 +59,9 @@ export const FlightInfo: FC<FlightInfoProps> = ({
                 </div>
               </SheetDescription>
             </SheetHeader>
-            <div className="grid gap-4 py-4">
+            <ScrollArea className="grid gap-4 h-[200px] w-[350px] py-4">
               <FlightInfoTable flightData={flightData} />
-            </div>
+            </ScrollArea>
           </>
         )}
       </SheetContent>
