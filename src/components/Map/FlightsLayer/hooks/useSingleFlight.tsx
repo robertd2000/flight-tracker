@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useState } from "react";
+import { RefObject, useCallback, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { RMap } from "rlayers";
 import { Polygon } from "ol/geom";
@@ -16,28 +16,25 @@ export const useSingleFlight = (mapRef: RefObject<RMap>) => {
   const [icao, setIcao] = useState<string | null>(null);
   const [isIcaoSetted, setIsIcaoSetted] = useState<boolean>(false);
 
-  const onSheetOpen = (e: boolean) => {
+  const onSheetOpen = useCallback((e: boolean) => {
     setIsSheetOpen(e);
     if (!e) setIcao(null);
-  };
+  }, []);
 
-  const onSetIcao = ({ icao24 }: { icao24: string }) => {
+  const onSetIcao = useCallback(({ icao24 }: { icao24: string }) => {
     setIcao(icao24);
     setIsIcaoSetted(true);
-  };
+  }, []);
 
-  const zoomToCoords = ({
-    latitude,
-    longitude,
-  }: {
-    longitude: number;
-    latitude: number;
-  }) => {
-    const center = fromLonLat([longitude, latitude]);
-    const polygon = new Polygon([[center]]);
+  const zoomToCoords = useCallback(
+    ({ latitude, longitude }: { longitude: number; latitude: number }) => {
+      const center = fromLonLat([longitude, latitude]);
+      const polygon = new Polygon([[center]]);
 
-    mapRef.current?.ol.getView().fit(polygon, { padding: [50, 50, 50, 50] });
-  };
+      mapRef.current?.ol.getView().fit(polygon, { padding: [50, 50, 50, 50] });
+    },
+    [mapRef]
+  );
 
   const { error, isLoading } = useQuery({
     queryKey: ["getStateByIcao"],

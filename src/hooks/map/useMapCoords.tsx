@@ -27,7 +27,7 @@ export const useMapCoords = () => {
     [searchParams, setSearchParams]
   );
 
-  const getCoords = () => {
+  const getCoords = useCallback(() => {
     const lon = searchParams.get("lon") || 0;
     const lat = searchParams.get("lat") || 0;
     const zoom = searchParams.get("zoom") || 1;
@@ -50,7 +50,7 @@ export const useMapCoords = () => {
       lomax,
       lomin,
     };
-  };
+  }, [searchParams]);
 
   return {
     view,
