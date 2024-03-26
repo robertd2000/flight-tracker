@@ -24,7 +24,7 @@ export const useMapCoords = () => {
 
       setSearchParams(searchParams);
     },
-    [searchParams, setSearchParams]
+    [searchParams]
   );
 
   const getCoords = useCallback(() => {

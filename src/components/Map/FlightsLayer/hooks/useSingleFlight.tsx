@@ -22,6 +22,8 @@ export const useSingleFlight = (mapRef: RefObject<RMap>) => {
   }, []);
 
   const onSetIcao = useCallback(({ icao24 }: { icao24: string }) => {
+    refetch();
+
     setIcao(icao24);
     setIsIcaoSetted(true);
   }, []);
@@ -36,8 +38,8 @@ export const useSingleFlight = (mapRef: RefObject<RMap>) => {
     [mapRef]
   );
 
-  const { error, isLoading } = useQuery({
-    queryKey: ["getStateByIcao"],
+  const { error, isLoading, refetch } = useQuery({
+    queryKey: ["getStateByIcao", icao],
     queryFn: async () => {
       // const data = flightSingleData;
       const data = await getStateByIcao(icao as string);

@@ -81,17 +81,13 @@ export const FlightsLayer = memo(({ mapRef }: { mapRef: RefObject<RMap> }) => {
           name: "flights",
         }}
         zIndex={100}
-        onClick={useCallback(
-          (e: RFeatureUIEvent) => {
-            const { icao24 } =
-              e.target.getProperties().features[0].values_.data;
-            onSheetOpen(true);
-            onSetIcao({
-              icao24,
-            });
-          },
-          [onSetIcao, onSheetOpen]
-        )}
+        onClick={useCallback((e: RFeatureUIEvent) => {
+          const { icao24 } = e.target.getProperties().features[0].values_.data;
+          onSheetOpen(true);
+          onSetIcao({
+            icao24,
+          });
+        }, [])}
       >
         {flightFeatures
           .filter((i) => i != null)
