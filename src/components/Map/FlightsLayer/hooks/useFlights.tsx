@@ -28,6 +28,8 @@ export const useFlights = () => {
 
       // const data = flightData;
 
+      console.log("len", data.states.length);
+
       if (data && data?.states?.length) {
         setflightFeatures(
           data?.states.map((i, idx) => {
@@ -92,7 +94,7 @@ export const useFlights = () => {
 
       return data;
     },
-    refetchInterval: 1500,
+    refetchInterval: 3000,
     refetchOnWindowFocus: false,
   });
 

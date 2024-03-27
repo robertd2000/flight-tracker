@@ -1,14 +1,14 @@
+import { RefObject, memo, useCallback, useRef } from "react";
 import { Feature } from "ol";
 import { FeatureLike } from "ol/Feature";
 import { Style, Icon } from "ol/style";
 import { RFeature, RFeatureUIEvent, RLayerCluster, RMap } from "rlayers";
 import { FlightInfo } from "@/components/FlightInfo";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { useSingleFlight } from "./hooks/useSingleFlight";
 import { useFlights } from "./hooks/useFlights";
 import { AircraftCategories } from "@/constants/flights/categories";
-import { RefObject, memo, useCallback } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 
 export const FlightsLayer = memo(({ mapRef }: { mapRef: RefObject<RMap> }) => {
   const { flightFeatures } = useFlights();
@@ -23,6 +23,8 @@ export const FlightsLayer = memo(({ mapRef }: { mapRef: RefObject<RMap> }) => {
     onSheetOpen,
     onSetIcao,
   } = useSingleFlight(mapRef);
+
+  const flightLayer = useRef<RLayerCluster>(null);
 
   return (
     <>
@@ -45,6 +47,7 @@ export const FlightsLayer = memo(({ mapRef }: { mapRef: RefObject<RMap> }) => {
       </div>
 
       <RLayerCluster
+        ref={flightLayer}
         distance={30}
         style={useCallback(
           (feature: FeatureLike, resolution: number) => {
@@ -81,17 +84,13 @@ export const FlightsLayer = memo(({ mapRef }: { mapRef: RefObject<RMap> }) => {
           name: "flights",
         }}
         zIndex={100}
-        onClick={useCallback(
-          (e: RFeatureUIEvent) => {
-            const { icao24 } =
-              e.target.getProperties().features[0].values_.data;
-            onSheetOpen(true);
-            onSetIcao({
-              icao24,
-            });
-          },
-          [onSetIcao, onSheetOpen]
-        )}
+        onClick={useCallback((e: RFeatureUIEvent) => {
+          const { icao24 } = e.target.getProperties().features[0].values_.data;
+          onSheetOpen(true);
+          onSetIcao({
+            icao24,
+          });
+        }, [])}
       >
         {flightFeatures
           .filter((i) => i != null)
