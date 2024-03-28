@@ -19,7 +19,7 @@ export const MainMap = memo(() => {
       className={style.mainMap}
       initial={view}
       minZoom={8}
-      maxZoom={12}
+      maxZoom={18}
       projection={"EPSG:3857"}
       view={[view, onSetView]}
       ref={mapRef}

@@ -3,7 +3,10 @@ import { useSearchParams } from "react-router-dom";
 import { toLonLat } from "ol/proj";
 import { RMap } from "rlayers";
 import { RView } from "node_modules/rlayers/RMap";
-import { initialMapData } from "../../components/Map/MainMap/constants/initial";
+import { localStorageController } from "@/utils/localStorage";
+import { getInitialData } from "@/components/Map/MainMap/utils";
+
+const initialMapData = getInitialData();
 
 export const useMapCoords = () => {
   const mapRef = useRef<RMap>(null);
@@ -23,6 +26,9 @@ export const useMapCoords = () => {
       searchParams.set("resolution", `${view.resolution}`);
 
       setSearchParams(searchParams);
+      localStorageController.setItem("lon", lon.toString());
+      localStorageController.setItem("lat", lat.toString());
+      localStorageController.setItem("zoom", view.zoom.toString());
     },
     [searchParams]
   );
